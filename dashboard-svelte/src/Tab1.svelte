@@ -16,11 +16,11 @@ const fetchTables = (async () => {
 
 let config = $Sconfig;
 (async () => {
-  if(Object.keys(config).length > 0)
+  if(config.length > 0)
     return;
 
   const config_response = await fetch(`${URL}/db.conf.json`)
-  config = await config_response.json();
+  config = (await config_response.json()).config;
   Sconfig.set(config);
 })();
 
@@ -45,7 +45,6 @@ async function fetchColumns(table) {
   }
   // Otherwise, if we already have the columns, return them
   else if($Scolumns && $Scolumns.length > 0) {
-    console.log($Scolumns);
     return $Scolumns;
   }
   // If we don't have anything, fetch
@@ -54,32 +53,13 @@ async function fetchColumns(table) {
   Scolumns.set(cols);
   return cols;
 }
-
-function getConfigType(name) {
-  if(config[name] instanceof Array) {
-    if(config[name].length > 2) {
-      return "list";
-    } else if(config[name].length == 2) {
-      return "range";
-    }
-    return "N/A";
-  }
-  return null;
-}
-
-function getConfig(name, index) {
-  if(config[name] instanceof Array) {
-    if(index < 2) {
-      return config[name][index];
-    }
-    return config[name];
-  }
-  return null;
-}
 </script>
 
+<h2>Configuração</h2>
 <section>
   <label for="select-tables">Selecione uma das tabelas do banco de dados:</label>
+  <!-- FIXME: quando recarrega o componente, ele "seleciona" a primeira opção,
+    independente da escolha anterior -->
   <select bind:value={tablename}>
     <option value="" selected disabled>Selecione</option>
     {#await fetchTables}
@@ -105,18 +85,6 @@ function getConfig(name, index) {
           <span class="column-name">{column.name}</span>
           (<span class="column-type">{column.type}</span>)
         </p>
-        <div>
-          {#if getConfigType(column.name) == "range"}
-            <p>
-              Valores são permitidos entre:
-              <span class="value-min">{getConfig(column.name, 0)}</span>&nbsp;e&nbsp;<span class="value-max">{getConfig(column.name, 1)}</span>
-            </p>
-          {:else if getConfigType(column.name) == "list"}
-            <p>Lista de valores permitidos: <span class="value-list">{getConfig(column.name, 2)}</span></p>
-          {:else}
-            <p>Sem restrição definida.</p>
-          {/if}
-        </div>
       </li>
     {/each}
     </ul>
@@ -124,6 +92,9 @@ function getConfig(name, index) {
 </section>
 
 <style>
+h2 {
+  margin: 0 0 1rem;
+}
 ul, li {
   margin: 0;
   list-style: none;
@@ -151,7 +122,7 @@ li {
 li p {
   margin: 0;
 }
-.column-name, .value-min, .value-max {
+.column-name {
   font-weight: bold;
 }
 </style>

@@ -1,25 +1,162 @@
 {
-  "GID":      ["*"],
-  "Data":     ["*"],
-  "Estação":  [],
-  "Chuva":    [],
-  "Pres":     [],
-  "RS":       [],
-  "Temp":     [8,  50],
-  "UR":       [0, 100],
-  "Dir_Vento": [0, 360],
-  "Vel_Vento": [0, 100],
-  "SO2":      [],
-  "HCNM":     [],
-  "HCT":      [],
-  "CH4":      [],
-  "CO":       [],
-  "NO":       [],
-  "NO2":      [],
-  "NOx":      [],
-  "O3":       [],
-  "PM10":     [],
-  "PM2_5":    [],
-  "Lat":      [-23.4, -20.7],
-  "Lon":      [-45,   -40.9]
+  "config": [
+    {
+      "name": "GID",
+      "description": "Identificador para o banco de dados",
+      "type": "any",
+      "unit": "n/a"
+    },
+    {
+      "name": "Data",
+      "description": "Data da medição",
+      "type": "any",
+      "unit": "n/a"
+    },
+    {
+      "name": "Estação",
+      "description": "Código da estação",
+      "type": "list",
+      "value": [
+        "CA", "AV", "SC", "SP", "IR", "BG", "CG", "PG",
+        "UMBG", "UMCJ", "UMCAJU", "UMCA", "UMCG", "UMCP",
+        "UMCE", "UMDC", "UMGV", "UMGM", "UMMA", "UMMD",
+        "UMPG", "UMPR", "UMPM", "UMRC", "UMVC"
+      ],
+      "unit": "n/a"
+    },
+    {
+      "name": "Chuva",
+      "description": "Precipitação pluviométrica",
+      "type": "range",
+      "value": [0,  1000],
+      "unit": "mm"
+    },
+    {
+      "name": "Pres",
+      "description": "Pressão atmosférica",
+      "type": "range",
+      "value": [870,  1080],
+      "unit": "mbar"
+    },
+    {
+      "name": "RS",
+      "description": "Radiação Solar",
+      "type": "range",
+      "value": [0,  2000],
+      "unit": "W/m²"
+    },
+    {
+      "name": "Temp",
+      "description": "Temperatura",
+      "type": "range",
+      "value": [8,  50],
+      "unit": "° C"
+    },
+    {
+      "name": "UR",
+      "description": "Umidade Relativa do ar",
+      "type": "range",
+      "value": [0,  100],
+      "unit": "%"
+    },
+    {
+      "name": "Dir_Vento",
+      "description": "Direção do vento",
+      "type": "range",
+      "value": [0,  360],
+      "unit": "°"
+    },
+    {
+      "name": "Vel_Vento",
+      "description": "Velocidade do vento",
+      "type": "range",
+      "value": [0,  100],
+      "unit": "m/s"
+    },
+    {
+      "name": "SO2",
+      "description": "Velocidade do vento",
+      "type": "range",
+      "value": [0,  1250],
+      "unit": "μg/m³"
+    },
+    {
+      "name": "HCNM",
+      "description": "Hidrocarbonetos Não-Metano",
+      "type": "any",
+      "unit": "ppm"
+    },
+    {
+      "name": "HCT",
+      "description": "Hidrocarbonetos Totais",
+      "type": "any",
+      "unit": "ppm"
+    },
+    {
+      "name": "CH4",
+      "description": "Metano",
+      "type": "any",
+      "unit": "μg/m³"
+    },
+    {
+      "name": "CO",
+      "description": "Monóxido de Carbono",
+      "type": "any",
+      "unit": "ppm"
+    },
+    {
+      "name": "NO",
+      "description": "Monóxido de Nitrogênio",
+      "type": "any",
+      "unit": "μg/m³"
+    },
+    {
+      "name": "NO2",
+      "description": "Dióxido de Nitrogênio",
+      "type": "range",
+      "value": [0,  1000],
+      "unit": "μg/m³"
+    },
+    {
+      "name": "NOx",
+      "description": "Óxidos de Nitrogênio",
+      "type": "any",
+      "unit": "μg/m³"
+    },
+    {
+      "name": "O3",
+      "description": "Ozônio",
+      "type": "range",
+      "value": [0,  800],
+      "unit": "μg/m³"
+    },
+    {
+      "name": "PM10",
+      "description": "Material particulado (<10 μm)",
+      "type": "range",
+      "value": [0,  1200],
+      "unit": "μg/m³"
+    },
+    {
+      "name": "PM2_5",
+      "description": "Material particulado (<2.5 μm)",
+      "type": "range",
+      "value": [0,  800],
+      "unit": "μg/m³"
+    },
+    {
+      "name": "Lat",
+      "description": "Latitude",
+      "type": "range",
+      "value": [-23.4, -20.7],
+      "unit": "n/a"
+    },
+    {
+      "name": "Lon",
+      "description": "Longitude",
+      "type": "range",
+      "value": [-45,   -40.9],
+      "unit": "n/a"
+    }
+  ]
 }

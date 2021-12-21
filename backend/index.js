@@ -32,6 +32,7 @@ app.get("/db.conf.json", (req, res) => {
   res.sendFile(path.join(__dirname, "db.conf.json"));
 });
 
+////// INFO //////
 app.get("/info/tables", (req, res) => {
   res.type("json");
   getTables().then(tables => {
@@ -46,6 +47,7 @@ app.get("/info/cols/:table", (req, res) => {
   });
 });
 
+////// COUNT //////
 app.get("/count/:table", (req, res) => {
   res.type("json");
   countRows(req.params).then(data => {
@@ -53,20 +55,44 @@ app.get("/count/:table", (req, res) => {
   });
 });
 
+// List of values
+app.get("/count/:table/:column/!/list/:a", (req, res) => {
+  res.type("json");
+  countValues(req.params, ["not", "list"]).then(data => {
+    res.send({ data: data });
+  });
+});
+app.get("/count/:table/:column/list/:a", (req, res) => {
+  res.type("json");
+  countValues(req.params, ["list"]).then(data => {
+    res.send({ data: data });
+  });
+});
+
+// NOT between two values
 app.get("/count/:table/:column/:a/:b/:c", (req, res) => {
   res.type("json");
-  countValues(req.params).then(data => {
+  countValues(req.params, ["not", "range"]).then(data => {
     res.send({ data: data });
   });
 });
+
+// Custom ('= 10', '! null', between 1 and 10, ...)
 app.get("/count/:table/:column/:a/:b", (req, res) => {
   res.type("json");
-  countValues(req.params).then(data => {
+  countValues(req.params, []).then(data => {
     res.send({ data: data });
   });
 });
 
 
+////// DISTINCT //////
+app.get("/distinct/:table/:column/:a/:b", (req, res) => {
+  res.type("json");
+  getDistinctValues(req.params, ["range"]).then(data => {
+    res.send({ data: data });
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening at port ${PORT}`)
@@ -116,7 +142,7 @@ async function countRows(params) {
   return rowcount;
 }
 
-async function countValues(params) {
+async function countValues(params, type) {
   const filtered = Object.values(params).filter(v => null !== v.match(protecregex));
   if(filtered.length > 0) {
     console.log("[countValues] protected");
@@ -136,18 +162,47 @@ async function countValues(params) {
       return [];
     }
   }
-  // User is requesting "count between"
-  if(isNumeric(params.a) && isNumeric(params.b)) {
+
+  if("b" in params) {
+    // User is requesting "count between"
+    if(isNumeric(params.a) && isNumeric(params.b)) {
+      return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
+        WHERE ${params.column} BETWEEN ${params.a} AND ${params.b}
+        LIMIT 100;`);
+    }
+    if(params.b.toLowerCase() === "null") {
+      const isorisnt = params.a === "!" ? "NOT" : "";
+      return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
+        WHERE ${params.column} IS ${isorisnt} NULL LIMIT 100;`);
+    }
+    // User is requesting "<operation> <value>" (eg. '= 100')
     return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
-      WHERE ${params.column} BETWEEN ${params.a} AND ${params.b}
-      LIMIT 100;`);
+      WHERE ${params.column} ${params.a} ${params.b} LIMIT 100;`);
   }
-  if(params.b.toLowerCase() === "null") {
-    const isorisnt = params.a === "!" ? "NOT" : "";
+
+  if(type.includes("list")) {
+    if(type.includes("not")) {
+      // User is requesting "count if not in this list of values"
+      const list = params.a.split(",").map(l => `'${l}'`).join(", ");
+      return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
+        WHERE ${params.column} NOT IN (${list}) LIMIT 100;`);
+    }
+    // User is requesting "count if in this list of values"
+    const list = params.a.split(",").map(l => `'${l}'`).join(", ");
     return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
-      WHERE ${params.column} IS ${isorisnt} NULL LIMIT 100;`);
+      WHERE ${params.column} IN (${list}) LIMIT 100;`);
   }
-  // User is requesting "<operation> <value>" (eg. '= 100')
-  return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
-    WHERE ${params.column} ${params.a} ${params.b} LIMIT 100;`);
+}
+
+async function getDistinctValues(params, type) {
+  const filtered = Object.values(params).filter(v => null !== v.match(protecregex));
+  if(filtered.length > 0) {
+    console.log("[getDistinctValues] protected");
+    return [];
+  }
+
+  console.log("[getDistinctValues]", params);
+
+  return await db.all(`SELECT DISTINCT "${params.column}" FROM "${params.table}"
+    WHERE ${params.column} NOT BETWEEN ${params.a} AND ${params.b} LIMIT 100;`);
 }

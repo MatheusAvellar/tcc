@@ -77,8 +77,7 @@ function format(num) {
 }
 </script>
 
-<p>Formato: <i>[qtd. não nulos] / [total] (porcentagem)</i></p>
-<!-- Ordenar por completude seria legal 👉👈 -->
+<!-- TODO: ordenar por completude? -->
 <ul>
 {#each Object.keys(not_nulls) as col}
   <li>
@@ -89,11 +88,7 @@ function format(num) {
     </p>
   </li>
 {:else}
-  {#if !tablename}
-    <p>Aguardando a seleção de uma tabela.</p>
-  {:else}
-    <p>Carregando...</p>
-  {/if}
+  <p>Carregando...</p>
 {/each}
 </ul>
 

@@ -1,6 +1,7 @@
 <script>
 import Tab1 from "./Tab1.svelte";
 import Tab2 from "./Tab2.svelte";
+import TabCredits from "./TabCredits.svelte";
 import { setContext } from "svelte";
 
 let tab = 1;
@@ -17,9 +18,14 @@ setContext("URL", "http://localhost:3000");
     <label for="config" data-selected={tab == 1}>Configuração</label>
     <input id="analise" bind:group={tab} type="radio" name="tab" value={2}>
     <label for="analise" data-selected={tab == 2}>Análise</label>
+    <input id="creditos" bind:group={tab} type="radio" name="tab" value={3}>
+    <label for="creditos" data-selected={tab == 3}>Créditos</label>
   </aside>
   <section>
-    {#if tab == 1}<Tab1/>{:else}<Tab2/>{/if}
+    {#if      tab == 1}<Tab1/>
+    {:else if tab == 2}<Tab2/>
+    {:else            }<TabCredits/>
+    {/if}
   </section>
 </main>
 <footer>
@@ -27,7 +33,7 @@ setContext("URL", "http://localhost:3000");
   <p class="disclaimer">
     Desenvolvido por Matheus Avellar como<br>
     parte do Trabalho de Conclusão de Curso<br>
-    do Bacharelado de Ciência da Computação,<br>
+    de Bacharelado em Ciência da Computação,<br>
     na UFRJ.
   </p>
 </footer>
@@ -47,7 +53,7 @@ main {
 input[type="radio"] {
   display: none;
 }
-aside {
+section, aside {
   padding: 1em;
 }
 label {
@@ -69,8 +75,7 @@ hr {
 .disclaimer {
   font-size: 85%;
   color: #444;
-  /*width: 40%;*/
   text-align: right;
-  margin: 0;
+  margin: 0 0 1em;
 }
 </style>
