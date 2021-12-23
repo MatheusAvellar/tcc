@@ -39,3 +39,59 @@ input, button, select, textarea {
 input:disabled {
   color: #ccc;
 }
+
+
+
+/*-----------------*/
+
+
+:root {
+  --warn1: #f3fff3;
+  --warn2: #fffdcf;
+  --warn3: #ffedcb;
+  --warn4: #ffe2e7;
+  --fwarn1: #000;
+  --fwarn2: #000;
+  --fwarn3: #000;
+  --fwarn4: #000;
+}
+:root.protanopia {
+  --warn1: #dbf6ff;
+  --warn2: #fbfce1;
+  --warn3: #ffefba;
+  --warn4: #ffd54f;
+}
+:root.monochrome {
+  --fwarn2: #000;
+  --warn1: #e6e6e6;
+
+  --fwarn2: #fff;
+  --warn2: #878787;
+
+  --fwarn3: #fff;
+  --warn3: #434343;
+
+  --fwarn4: #fff;
+  --warn4: #000;
+}
+
+.warn-1 {
+  background-color: #f3fff3;
+  background-color: var(--warn1);
+  color: var(--fwarn1);
+}
+.warn-2 {
+  background-color: #fffdcf;
+  background-color: var(--warn2);
+  color: var(--fwarn2);
+}
+.warn-3 {
+  background-color: #ffedcb;
+  background-color: var(--warn3);
+  color: var(--fwarn3);
+}
+.warn-4 {
+  background-color: #ffe2e7;
+  background-color: var(--warn4);
+  color: var(--fwarn4);
+}

@@ -152,9 +152,9 @@ async function fetchDistinctRanged(table, oor) {
           {#if out_of_range[r.name] === 0}
             <p class="status">Nenhum valor fora do intervalo.</p>
           {:else if out_of_range[r.name] === 1}
-            <p class="status bad"><b>1</b> valor fora do intervalo.</p>
+            <p class="status warn-4"><b>1</b> valor fora do intervalo.</p>
           {:else}
-            <p class="status bad">
+            <p class="status warn-4">
               <b>{out_of_range[r.name]}</b> valores fora do intervalo.
             </p>
           {/if}
@@ -184,9 +184,9 @@ async function fetchDistinctRanged(table, oor) {
           {#if out_of_list[l.name] === 0}
             <p class="status">Nenhum valor inesperado.</p>
           {:else if out_of_list[l.name] === 1}
-            <p class="status bad"><b>1</b> valor inesperado.</p>
+            <p class="status warn-4"><b>1</b> valor inesperado.</p>
           {:else}
-            <p class="status bad">
+            <p class="status warn-4">
               <b>{out_of_list[l.name]}</b> valores inesperados.
             </p>
           {/if}
@@ -220,9 +220,6 @@ h4 {
 }
 .status {
   padding: .25em .5em;
-}
-.bad {
-  background-color: #ffe2e7;
 }
 ul, li {
   margin: 0;

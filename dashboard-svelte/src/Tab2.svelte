@@ -2,10 +2,11 @@
 import ItemWrapper from "./ItemWrapper.svelte";
 import Accuracy from "./DQ/Accuracy.svelte";
 import Completeness from "./DQ/Completeness.svelte";
+import Consistency from "./DQ/Consistency.svelte";
 import Understandability from "./DQ/Understandability.svelte";
   // [x] Accuracy
   // [x] Completeness
-  // [ ] Consistency
+  // [x] Consistency
   // [ ] Credibility
   // [ ] Currentness
   // [ ] Accessibility
@@ -58,7 +59,21 @@ import Understandability from "./DQ/Understandability.svelte";
       <Completeness slot="content"/>
     </ItemWrapper>
   </li>
-  <li><ItemWrapper name="Consistência"><xxx slot="content"/></ItemWrapper></li>
+  <li>
+    <ItemWrapper name="Consistência">
+      <article slot="description">
+        <p>
+          A dimensão de <i>consistência</i> mede a existência de contradições
+          e incoerências dentre os dados.
+        </p>
+        <p>
+          A exemplo, um dado que mede o total gasto em materiais não ser igual
+          à soma dos gastos é um dado inconsistente.
+        </p>
+      </article>
+      <Consistency slot="content"/>
+    </ItemWrapper>
+  </li>
   <li><ItemWrapper name="Credibilidade"><xxx slot="content"/></ItemWrapper></li>
   <li><ItemWrapper name="Atualidade"><xxx slot="content"/></ItemWrapper></li>
   <li><ItemWrapper name="Acessibilidade"><xxx slot="content"/></ItemWrapper></li>

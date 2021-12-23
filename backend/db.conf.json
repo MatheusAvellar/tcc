@@ -121,14 +121,22 @@
       "name": "NOx",
       "description": "Óxidos de Nitrogênio",
       "type": "any",
-      "unit": "μg/m³"
+      "unit": "μg/m³",
+      "consistency": {
+        "operation": "+",
+        "columns": ["NO", "NO2"]
+      }
     },
     {
       "name": "O3",
       "description": "Ozônio",
       "type": "range",
       "value": [0,  800],
-      "unit": "μg/m³"
+      "unit": "μg/m³",
+      "consistency": {
+        "operation": "",
+        "columns": ["O3"]
+      }
     },
     {
       "name": "PM10",
@@ -146,14 +154,12 @@
     },
     {
       "name": "Lat",
-      "description": "Latitude",
       "type": "range",
       "value": [-23.4, -20.7],
       "unit": "n/a"
     },
     {
       "name": "Lon",
-      "description": "Longitude",
       "type": "range",
       "value": [-45,   -40.9],
       "unit": "n/a"

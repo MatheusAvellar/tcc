@@ -11,3 +11,5 @@ export const Sout_of_list = writable({});
 export const Sdoor = writable({});
 // Completeness
 export const Snot_nulls = writable({});
+// Consistency
+export const Sinconsistent = writable([]);

@@ -12,10 +12,14 @@ let config = $Sconfig;
       {#if c.unit !== "n/a"}
         (<span>{c.unit}</span>)
       {:else}
-        (sem unidade)
+        <span class="warn-2">(sem unidade)</span>
       {/if}
     </p>
-    <p class="description">{c.description}</p>
+    {#if c.description}
+      <p class="description">{c.description}</p>
+    {:else}
+      <p class="description warn-2">(sem descrição)</p>
+    {/if}
   </li>
 {/each}
 </ul>

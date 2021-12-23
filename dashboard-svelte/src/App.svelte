@@ -3,14 +3,30 @@ import Tab1 from "./Tab1.svelte";
 import Tab2 from "./Tab2.svelte";
 import TabCredits from "./TabCredits.svelte";
 import { setContext } from "svelte";
+setContext("URL", "http://localhost:3000");
 
 let tab = 1;
+let color = 1;
 
-setContext("URL", "http://localhost:3000");
+$: changePalette(color);
+
+function changePalette(palette) {
+  const palettes = [ "", "protanopia", "monochrome" ];
+  document.documentElement.className = palettes[palette-1];
+}
 </script>
 
 <header>
   <h1>Data Quality Dashboard</h1>
+  <section id="palette-wrapper">
+    Paleta de cores:
+    <input id="palette-1" bind:group={color} type="radio" name="color" value={1}>
+    <label class="palette" for="palette-1" data-selected={color == 1}>Padrão</label>
+    <input id="palette-2" bind:group={color} type="radio" name="color" value={2}>
+    <label class="palette" for="palette-2" data-selected={color == 2}>Protanopia</label>
+    <input id="palette-3" bind:group={color} type="radio" name="color" value={3}>
+    <label class="palette" for="palette-3" data-selected={color == 3}>Monocromático</label>
+  </section>
 </header>
 <main>
   <aside>
@@ -43,8 +59,17 @@ header, main, footer {
   max-width: 1200px;
   margin: auto;
 }
+main {
+  clear: both;
+}
 h1 {
+  float: left;
   margin: 0;
+}
+@media screen and (max-width: 830px) {
+  h1 {
+    float: none;
+  }
 }
 main {
   display: grid;
@@ -77,5 +102,13 @@ hr {
   color: #444;
   text-align: right;
   margin: 0 0 1em;
+}
+
+#palette-wrapper {
+  padding: 0;
+  text-align: right;
+}
+.palette {
+  display: inline-block;
 }
 </style>

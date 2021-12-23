@@ -94,6 +94,18 @@ app.get("/distinct/:table/:column/:a/:b", (req, res) => {
   });
 });
 
+
+////// CONSISTENCY //////
+app.get("/consistent/:table/:in_columns/:out_columns", (req, res) => {
+  res.type("json");
+  getConsistency(req.params, []).then(data => {
+    res.send({ data: data });
+  });
+});
+
+
+
+
 app.listen(PORT, () => {
   console.log(`Server listening at port ${PORT}`)
 });
@@ -205,4 +217,44 @@ async function getDistinctValues(params, type) {
 
   return await db.all(`SELECT DISTINCT "${params.column}" FROM "${params.table}"
     WHERE ${params.column} NOT BETWEEN ${params.a} AND ${params.b} LIMIT 100;`);
+}
+
+async function getConsistency(params) {
+  const filtered = Object.values(params).filter(v => null !== v.match(protecregex));
+  if(filtered.length > 0) {
+    console.log("[getConsistency] protected");
+    return [];
+  }
+
+  console.log("[getConsistency]", params);
+
+  // Params: /:table/:in_columns/:out_columns
+
+  // Get greatest differences (both on positive and negative sides)
+  const diff = await db.all(`SELECT
+      min((${params.out_columns}) - (${params.in_columns})) as negative,
+      max((${params.out_columns}) - (${params.in_columns})) as positive
+    FROM "${params.table}" LIMIT 100;`);
+
+  // Get inconsistency count
+  const diffcount = await db.all(`SELECT count(DIFF) as count from (
+      SELECT (${params.out_columns}) - (${params.in_columns}) as DIFF
+      FROM "${params.table}"
+      WHERE DIFF <> 0
+    ) LIMIT 100;`);
+
+  // Example output:
+  /* {
+    "name": "NO+NO2=NOx",
+    "diff": {
+      "negative": -211.2,
+      "positive": 187.22
+    },
+    "count": 184519
+  } */
+  return {
+    "name": `${params.in_columns}=${params.out_columns}`,
+    "diff": diff[0],
+    ...diffcount[0]
+  };
 }

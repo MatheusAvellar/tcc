@@ -64,7 +64,7 @@ function getPercentage(col, total) {
   );
 }
 function getClass(percentage) {
-  const classes = ["perfect","good","bad","terrible", "awful"];
+  const classes = ["warn-0", "warn-1", "warn-2", "warn-3", "warn-4"];
   const scores = [ 100, 75, 50, 25, 0 ];
   for(let i = 0; i < 5; i++) {
     if(percentage >= scores[i])
@@ -99,18 +99,6 @@ function format(num) {
 }
 .status {
   padding: .25em .5em;
-}
-.awful {
-  background-color: #ffe2e7;
-}
-.terrible {
-  background-color: #ffedcb;
-}
-.bad {
-  background-color: #fffdcf;
-}
-.good {
-  background-color: #f3fff3;
 }
 
 ul, li {
