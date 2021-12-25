@@ -3,6 +3,7 @@ import { Stable } from "./stores.js";
 let tablename = $Stable;
 
 export let name;
+export let expandable;
 
 let loaded = false;
 function clicked() {
@@ -12,16 +13,18 @@ function clicked() {
 
 <details>
   <summary>
-    <h3>{name}</h3>
+    <h3 id="{name}">{name}</h3>
   </summary>
   <slot name="description"/>
-  {#if !tablename}
-    <p> Aguardando a seleção de uma tabela </p>
-  {:else}
-    {#if !loaded}
-      <button on:click={clicked}>Clique para analisar</button>
+  {#if expandable !== "no"}
+    {#if !tablename}
+      <p> Aguardando a seleção de uma tabela </p>
     {:else}
-      <slot name="content"/>
+      {#if !loaded}
+        <button on:click={clicked}>Clique para analisar</button>
+      {:else}
+        <slot name="content"/>
+      {/if}
     {/if}
   {/if}
 </details>
