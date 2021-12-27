@@ -3,12 +3,14 @@ import ItemWrapper from "./ItemWrapper.svelte";
 import Accuracy from "./DQ/Accuracy.svelte";
 import Completeness from "./DQ/Completeness.svelte";
 import Consistency from "./DQ/Consistency.svelte";
+import Currentness from "./DQ/Currentness.svelte";
+import Precision from "./DQ/Precision.svelte";
 import Understandability from "./DQ/Understandability.svelte";
   // [x] Accuracy
   // [x] Completeness
   // [x] Consistency
-  // [ ] Currentness: select distinct Data from "dados-horarios" order by Data desc limit 10;
-  // [ ] Precision
+  // [x] Currentness
+  // [x] Precision
   // [x] Understandability
   // ---------------------
   // [o] Credibility
@@ -77,12 +79,40 @@ import Understandability from "./DQ/Understandability.svelte";
   </li>
   <li>
     <ItemWrapper name="Atualidade">
-      <xxx slot="content"/>
+      <article slot="description">
+        <p>
+          A dimensão de <i>atualidade</i> mede a corretude temporal de um dado.
+          Dados que não mais representam a realidade – ou seja, dados
+          <i>desatualizados</i> – são dados com baixa atualidade.
+        </p>
+        <p>
+          Por exemplo, uma tabela de horários de uma estação de trem não pode
+          ter dados atualizados somente uma vez por semana; seus dados precisam
+          refletir a realidade, pois trens atrasam, se adiantam, são cancelados,
+          etc.
+        </p>
+      </article>
+      <Currentness slot="content"/>
     </ItemWrapper>
   </li>
   <li>
     <ItemWrapper name="Precisão">
-      <xxx slot="content"/>
+      <article slot="description">
+        <p>
+          A dimensão de <i>precisão</i> mede a exatidão ou o nível de
+          aproximação usado para representar valores. Por exemplo, uma medição
+          de altura de pessoas em metros, sem casas decimais, possui baixa
+          precisão.
+        </p>
+        <p>
+          Como a necessidade de uma maior precisão pode ser subjetiva, ou ser
+          dependente de fatores externos ao banco de dados, não há um jeito
+          fácil de categorizar boas ou más precisões automaticamente. Porém, é
+          possível medir a quantidade de casas decimais – ou a falta delas – em
+          cada coluna relevante do banco.
+        </p>
+      </article>
+      <Precision slot="content"/>
     </ItemWrapper>
   </li>
   <li>

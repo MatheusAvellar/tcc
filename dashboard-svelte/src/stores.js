@@ -13,3 +13,7 @@ export const Sdoor = writable({});
 export const Snot_nulls = writable({});
 // Consistency
 export const Sinconsistent = writable([]);
+// Currentness
+export const Scurrentness = writable({});
+// Precision
+export const Sprecision = writable({});

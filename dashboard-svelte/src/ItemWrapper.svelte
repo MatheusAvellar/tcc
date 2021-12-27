@@ -2,8 +2,8 @@
 import { Stable } from "./stores.js";
 let tablename = $Stable;
 
-export let name;
-export let expandable;
+export let name = "Woops";
+export let expandable = "yes";
 
 let loaded = false;
 function clicked() {

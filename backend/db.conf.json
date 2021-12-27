@@ -10,7 +10,8 @@
       "name": "Data",
       "description": "Data da medição",
       "type": "any",
-      "unit": "n/a"
+      "unit": "n/a",
+      "isdatetime": true
     },
     {
       "name": "Estação",

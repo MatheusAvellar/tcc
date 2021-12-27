@@ -123,13 +123,4 @@ li {
 li p {
   margin: 0;
 }
-
-.list {
-  text-overflow: ellipsis;
-  display: inline-block;
-  max-width: 10em;
-  white-space: nowrap;
-  overflow: hidden;
-  vertical-align: text-bottom;
-}
 </style>

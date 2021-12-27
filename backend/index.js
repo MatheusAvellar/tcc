@@ -94,6 +94,13 @@ app.get("/distinct/:table/:column/:a/:b", (req, res) => {
   });
 });
 
+app.get("/distinct/:table/:column", (req, res) => {
+  res.type("json");
+  getDistinctValues(req.params, []).then(data => {
+    res.send({ data: data });
+  });
+});
+
 
 ////// CONSISTENCY //////
 app.get("/consistent/:table/:in_columns/:out_columns", (req, res) => {
@@ -103,6 +110,14 @@ app.get("/consistent/:table/:in_columns/:out_columns", (req, res) => {
   });
 });
 
+
+////// PRECISION //////
+app.get("/precision/:table/:column", (req, res) => {
+  res.type("json");
+  getPrecision(req.params, []).then(data => {
+    res.send({ data: data });
+  });
+});
 
 
 
@@ -215,8 +230,16 @@ async function getDistinctValues(params, type) {
 
   console.log("[getDistinctValues]", params);
 
-  return await db.all(`SELECT DISTINCT "${params.column}" FROM "${params.table}"
-    WHERE ${params.column} NOT BETWEEN ${params.a} AND ${params.b} LIMIT 100;`);
+  if("a" in params && "b" in params) {
+    return await db.all(`SELECT DISTINCT "${params.column}"
+      FROM "${params.table}"
+      WHERE ${params.column} NOT BETWEEN ${params.a} AND ${params.b}
+      LIMIT 100;`);
+  }
+  return await db.all(`SELECT DISTINCT "${params.column}"
+    FROM "${params.table}"
+    ORDER BY ${params.column} DESC
+    LIMIT 100;`);
 }
 
 async function getConsistency(params) {
@@ -243,7 +266,7 @@ async function getConsistency(params) {
       WHERE DIFF <> 0
     ) LIMIT 100;`);
 
-  // Example output:
+  // ex.:
   /* {
     "name": "NO+NO2=NOx",
     "diff": {
@@ -257,4 +280,22 @@ async function getConsistency(params) {
     "diff": diff[0],
     ...diffcount[0]
   };
+}
+
+async function getPrecision(params) {
+  const filtered = Object.values(params).filter(v => null !== v.match(protecregex));
+  if(filtered.length > 0) {
+    console.log("[getPrecision] protected");
+    return [];
+  }
+
+  console.log("[getPrecision]", params);
+
+  return await db.all(`SELECT max(
+    length(
+      substr(
+        cast(${params.column} as text),
+        instr(cast(${params.column} as text), '.')+1)
+      )
+    ) as "${params.column}-precision" FROM "${params.table}" LIMIT 100;`);
 }
