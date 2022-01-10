@@ -12,16 +12,16 @@ let consistency = [];
 let inconsistent = $Sinconsistent;
 
 $: {
-  updateConfig(config);
+  updateConfig(config, tablename);
 
   checkConsistency(tablename, consistency);
 }
 
 // Upon a config update, this will find the variables to be checked
-function updateConfig(column_config) {
+function updateConfig(column_config, tablename) {
   let temp_consistency = [];
 
-  column_config.forEach(c => {
+  column_config[tablename].forEach(c => {
     if("consistency" in c)
       temp_consistency.push(c);
   });
@@ -35,9 +35,9 @@ async function checkConsistency(table, con_list) {
 
   const promises = [];
   con_list.forEach(c => {
-    const in_cols = c.consistency.columns.join(c.consistency.operation);
+    const in_cols = c.consistency.columns.join('|');
     promises.push(
-      fetch(`${URL}/consistent/${table}/${in_cols}/${c.name}`)
+      fetch(`${URL}/consistent/${table}/${in_cols}/${c.consistency.operation}/${c.name}`)
     );
   })
 

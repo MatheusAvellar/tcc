@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const sqlite3 = require("sqlite3");
 const sq = require("sqlite");
-const DBPATH = "../dados-horarios.db";
+const DBPATH = "../dados.db";
 const app = express();
 const PORT = 3000;
 
@@ -103,7 +103,7 @@ app.get("/distinct/:table/:column", (req, res) => {
 
 
 ////// CONSISTENCY //////
-app.get("/consistent/:table/:in_columns/:out_columns", (req, res) => {
+app.get("/consistent/:table/:in_columns/:operator/:out_columns", (req, res) => {
   res.type("json");
   getConsistency(req.params, []).then(data => {
     res.send({ data: data });
@@ -182,7 +182,7 @@ async function countValues(params, type) {
   if("c" in params) {
     if(params.a === "!") {
       return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
-        WHERE ${params.column} NOT BETWEEN ${params.b} AND ${params.c}
+        WHERE "${params.column}" NOT BETWEEN ${params.b} AND ${params.c}
         LIMIT 100;`);
     } else {
       console.log("[countValues] unimplemented");
@@ -194,17 +194,17 @@ async function countValues(params, type) {
     // User is requesting "count between"
     if(isNumeric(params.a) && isNumeric(params.b)) {
       return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
-        WHERE ${params.column} BETWEEN ${params.a} AND ${params.b}
+        WHERE "${params.column}" BETWEEN ${params.a} AND ${params.b}
         LIMIT 100;`);
     }
     if(params.b.toLowerCase() === "null") {
       const isorisnt = params.a === "!" ? "NOT" : "";
       return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
-        WHERE ${params.column} IS ${isorisnt} NULL LIMIT 100;`);
+        WHERE "${params.column}" IS ${isorisnt} NULL LIMIT 100;`);
     }
     // User is requesting "<operation> <value>" (eg. '= 100')
     return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
-      WHERE ${params.column} ${params.a} ${params.b} LIMIT 100;`);
+      WHERE "${params.column}" ${params.a} ${params.b} LIMIT 100;`);
   }
 
   if(type.includes("list")) {
@@ -212,12 +212,12 @@ async function countValues(params, type) {
       // User is requesting "count if not in this list of values"
       const list = params.a.split(",").map(l => `'${l}'`).join(", ");
       return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
-        WHERE ${params.column} NOT IN (${list}) LIMIT 100;`);
+        WHERE "${params.column}" NOT IN (${list}) LIMIT 100;`);
     }
     // User is requesting "count if in this list of values"
     const list = params.a.split(",").map(l => `'${l}'`).join(", ");
     return await db.all(`SELECT count(*) as "${params.column}-count" FROM "${params.table}"
-      WHERE ${params.column} IN (${list}) LIMIT 100;`);
+      WHERE "${params.column}" IN (${list}) LIMIT 100;`);
   }
 }
 
@@ -233,12 +233,12 @@ async function getDistinctValues(params, type) {
   if("a" in params && "b" in params) {
     return await db.all(`SELECT DISTINCT "${params.column}"
       FROM "${params.table}"
-      WHERE ${params.column} NOT BETWEEN ${params.a} AND ${params.b}
+      WHERE "${params.column}" NOT BETWEEN ${params.a} AND ${params.b}
       LIMIT 100;`);
   }
   return await db.all(`SELECT DISTINCT "${params.column}"
     FROM "${params.table}"
-    ORDER BY ${params.column} DESC
+    ORDER BY "${params.column}" DESC
     LIMIT 100;`);
 }
 
@@ -250,18 +250,18 @@ async function getConsistency(params) {
   }
 
   console.log("[getConsistency]", params);
-
-  // Params: /:table/:in_columns/:out_columns
+  // Params: /:table/:in_columns/:operator/:out_columns
+  const input = params.in_columns.split("|").map(c => `"${c}"`).join(params.operator);
 
   // Get greatest differences (both on positive and negative sides)
   const diff = await db.all(`SELECT
-      min((${params.out_columns}) - (${params.in_columns})) as negative,
-      max((${params.out_columns}) - (${params.in_columns})) as positive
+      min(("${params.out_columns}") - (${input})) as negative,
+      max(("${params.out_columns}") - (${input})) as positive
     FROM "${params.table}" LIMIT 100;`);
 
   // Get inconsistency count
   const diffcount = await db.all(`SELECT count(DIFF) as count from (
-      SELECT (${params.out_columns}) - (${params.in_columns}) as DIFF
+      SELECT ("${params.out_columns}") - (${input}) as DIFF
       FROM "${params.table}"
       WHERE DIFF <> 0
     ) LIMIT 100;`);
@@ -275,8 +275,9 @@ async function getConsistency(params) {
     },
     "count": 184519
   } */
+  const input_formatted = params.in_columns.split("|").join(` ${params.operator} `);
   return {
-    "name": `${params.in_columns}=${params.out_columns}`,
+    "name": `${input_formatted} = ${params.out_columns}`,
     "diff": diff[0],
     ...diffcount[0]
   };
@@ -294,8 +295,8 @@ async function getPrecision(params) {
   return await db.all(`SELECT max(
     length(
       substr(
-        cast(${params.column} as text),
-        instr(cast(${params.column} as text), '.')+1)
+        cast("${params.column}" as text),
+        instr(cast("${params.column}" as text), '.')+1)
       )
     ) as "${params.column}-precision" FROM "${params.table}" LIMIT 100;`);
 }

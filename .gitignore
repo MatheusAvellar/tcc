@@ -1,6 +1,6 @@
 # GitHub only supports up to like 100MB,
 # and this file is 356 MB
-dados-horarios.db
+dados.db
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/node

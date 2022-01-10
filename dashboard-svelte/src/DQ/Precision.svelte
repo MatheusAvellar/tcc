@@ -50,6 +50,7 @@ async function fetchRealPrecision(table, columns) {
     de todas as colunas de tipo ponto flutuante (REAL).
   </p>
   <ul>
+  <!-- TODO: melhorar essa visualização aqui -->
   {#each Object.keys(precision) as col}
     <li>
       <p class="column-name">{col}</p>

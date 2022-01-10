@@ -1,11 +1,12 @@
 <script>
-import { Sconfig } from "../stores.js";
+import { Stable, Sconfig } from "../stores.js";
 
+let table = $Stable;
 let config = $Sconfig;
 </script>
 
 <ul>
-{#each config as c}
+{#each config[table] as c}
   <li>
     <p class="column-name">
       <b>{c.name}</b>

@@ -26,8 +26,8 @@ import Understandability from "./DQ/Understandability.svelte";
 
 <h2>Análise automática</h2>
 <p>
-  As 15 características de qualidade de dados definidas pela ISO/IEC 25012
-  foram separadas abaixo para serem analisadas individualmente:
+  Dentre as 15 características de qualidade de dados definidas pela ISO/IEC 25012,
+  6 delas foram separadas abaixo para serem verificadas individualmente:
 </p>
 <ol>
   <li>
@@ -140,6 +140,11 @@ import Understandability from "./DQ/Understandability.svelte";
 </ol>
 <hr>
 <h2>Análise manual</h2>
+<p>
+  Nem todas as características de qualidade de dados definidas pela ISO/IEC 25012
+  podem ser automaticamente analisadas. Abaixo estão as características que não
+  puderam ser automaticamente analisadas:
+</p>
 <ol>
   <li>
     <ItemWrapper name="Credibilidade" expandable="no">
@@ -290,5 +295,12 @@ ol {
 }
 li {
   margin-bottom: 1.5em;
+}
+hr {
+  height: 2.5px;
+  background-color: #efefef;
+  border: 0;
+  margin: 4rem auto 3rem;
+  width: 50%;
 }
 </style>

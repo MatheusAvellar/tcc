@@ -21,7 +21,7 @@ async function fetchRealPrecision(table, config) {
     return;
 
   const promises = [];
-  config.forEach(col => {
+  config[table].forEach(col => {
     if(col.isdatetime)
       promises.push(fetch(`${URL}/distinct/${table}/${col.name}`));
   });

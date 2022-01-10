@@ -1,169 +1,454 @@
 {
-  "config": [
-    {
-      "name": "GID",
-      "description": "Identificador para o banco de dados",
-      "type": "any",
-      "unit": "n/a"
-    },
-    {
-      "name": "Data",
-      "description": "Data da medição",
-      "type": "any",
-      "unit": "n/a",
-      "isdatetime": true
-    },
-    {
-      "name": "Estação",
-      "description": "Código da estação",
-      "type": "list",
-      "value": [
-        "CA", "AV", "SC", "SP", "IR", "BG", "CG", "PG",
-        "UMBG", "UMCJ", "UMCAJU", "UMCA", "UMCG", "UMCP",
-        "UMCE", "UMDC", "UMGV", "UMGM", "UMMA", "UMMD",
-        "UMPG", "UMPR", "UMPM", "UMRC", "UMVC"
-      ],
-      "unit": "n/a"
-    },
-    {
-      "name": "Chuva",
-      "description": "Precipitação pluviométrica",
-      "type": "range",
-      "value": [0,  1000],
-      "unit": "mm"
-    },
-    {
-      "name": "Pres",
-      "description": "Pressão atmosférica",
-      "type": "range",
-      "value": [870,  1080],
-      "unit": "mbar"
-    },
-    {
-      "name": "RS",
-      "description": "Radiação Solar",
-      "type": "range",
-      "value": [0,  2000],
-      "unit": "W/m²"
-    },
-    {
-      "name": "Temp",
-      "description": "Temperatura",
-      "type": "range",
-      "value": [8,  50],
-      "unit": "° C"
-    },
-    {
-      "name": "UR",
-      "description": "Umidade Relativa do ar",
-      "type": "range",
-      "value": [0,  100],
-      "unit": "%"
-    },
-    {
-      "name": "Dir_Vento",
-      "description": "Direção do vento",
-      "type": "range",
-      "value": [0,  360],
-      "unit": "°"
-    },
-    {
-      "name": "Vel_Vento",
-      "description": "Velocidade do vento",
-      "type": "range",
-      "value": [0,  100],
-      "unit": "m/s"
-    },
-    {
-      "name": "SO2",
-      "description": "Velocidade do vento",
-      "type": "range",
-      "value": [0,  1250],
-      "unit": "μg/m³"
-    },
-    {
-      "name": "HCNM",
-      "description": "Hidrocarbonetos Não-Metano",
-      "type": "any",
-      "unit": "ppm"
-    },
-    {
-      "name": "HCT",
-      "description": "Hidrocarbonetos Totais",
-      "type": "any",
-      "unit": "ppm"
-    },
-    {
-      "name": "CH4",
-      "description": "Metano",
-      "type": "any",
-      "unit": "μg/m³"
-    },
-    {
-      "name": "CO",
-      "description": "Monóxido de Carbono",
-      "type": "any",
-      "unit": "ppm"
-    },
-    {
-      "name": "NO",
-      "description": "Monóxido de Nitrogênio",
-      "type": "any",
-      "unit": "μg/m³"
-    },
-    {
-      "name": "NO2",
-      "description": "Dióxido de Nitrogênio",
-      "type": "range",
-      "value": [0,  1000],
-      "unit": "μg/m³"
-    },
-    {
-      "name": "NOx",
-      "description": "Óxidos de Nitrogênio",
-      "type": "any",
-      "unit": "μg/m³",
-      "consistency": {
-        "operation": "+",
-        "columns": ["NO", "NO2"]
+  "config": {
+    "dados-horarios-ar": [
+      {
+        "name": "GID",
+        "description": "Identificador para o banco de dados",
+        "type": "any",
+        "unit": "n/a"
+      },
+      {
+        "name": "Data",
+        "description": "Data da medição",
+        "type": "any",
+        "unit": "n/a",
+        "isdatetime": true
+      },
+      {
+        "name": "Estação",
+        "description": "Código da estação",
+        "type": "list",
+        "value": [
+          "CA", "AV", "SC", "SP", "IR", "BG", "CG", "PG",
+          "UMBG", "UMCJ", "UMCAJU", "UMCA", "UMCG", "UMCP",
+          "UMCE", "UMDC", "UMGV", "UMGM", "UMMA", "UMMD",
+          "UMPG", "UMPR", "UMPM", "UMRC", "UMVC"
+        ],
+        "unit": "n/a"
+      },
+      {
+        "name": "Chuva",
+        "description": "Precipitação pluviométrica",
+        "type": "range",
+        "value": [0,  1000],
+        "unit": "mm"
+      },
+      {
+        "name": "Pres",
+        "description": "Pressão atmosférica",
+        "type": "range",
+        "value": [870,  1080],
+        "unit": "mbar"
+      },
+      {
+        "name": "RS",
+        "description": "Radiação Solar",
+        "type": "range",
+        "value": [0,  2000],
+        "unit": "W/m²"
+      },
+      {
+        "name": "Temp",
+        "description": "Temperatura",
+        "type": "range",
+        "value": [8,  50],
+        "unit": "° C"
+      },
+      {
+        "name": "UR",
+        "description": "Umidade Relativa do ar",
+        "type": "range",
+        "value": [0,  100],
+        "unit": "%"
+      },
+      {
+        "name": "Dir_Vento",
+        "description": "Direção do vento",
+        "type": "range",
+        "value": [0,  360],
+        "unit": "°"
+      },
+      {
+        "name": "Vel_Vento",
+        "description": "Velocidade do vento",
+        "type": "range",
+        "value": [0,  100],
+        "unit": "m/s"
+      },
+      {
+        "name": "SO2",
+        "description": "Velocidade do vento",
+        "type": "range",
+        "value": [0,  1250],
+        "unit": "μg/m³"
+      },
+      {
+        "name": "HCNM",
+        "description": "Hidrocarbonetos Não-Metano",
+        "type": "any",
+        "unit": "ppm"
+      },
+      {
+        "name": "HCT",
+        "description": "Hidrocarbonetos Totais",
+        "type": "any",
+        "unit": "ppm"
+      },
+      {
+        "name": "CH4",
+        "description": "Metano",
+        "type": "any",
+        "unit": "μg/m³"
+      },
+      {
+        "name": "CO",
+        "description": "Monóxido de Carbono",
+        "type": "any",
+        "unit": "ppm"
+      },
+      {
+        "name": "NO",
+        "description": "Monóxido de Nitrogênio",
+        "type": "any",
+        "unit": "μg/m³"
+      },
+      {
+        "name": "NO2",
+        "description": "Dióxido de Nitrogênio",
+        "type": "range",
+        "value": [0,  1000],
+        "unit": "μg/m³"
+      },
+      {
+        "name": "NOx",
+        "description": "Óxidos de Nitrogênio",
+        "type": "any",
+        "unit": "μg/m³",
+        "consistency": {
+          "operation": "+",
+          "columns": ["NO", "NO2"]
+        }
+      },
+      {
+        "name": "O3",
+        "description": "Ozônio",
+        "type": "range",
+        "value": [0,  800],
+        "unit": "μg/m³"
+      },
+      {
+        "name": "PM10",
+        "description": "Material particulado (<10 μm)",
+        "type": "range",
+        "value": [0,  1200],
+        "unit": "μg/m³"
+      },
+      {
+        "name": "PM2_5",
+        "description": "Material particulado (<2.5 μm)",
+        "type": "range",
+        "value": [0,  800],
+        "unit": "μg/m³"
+      },
+      {
+        "name": "Lat",
+        "type": "range",
+        "value": [-23.4, -20.7],
+        "unit": "n/a"
+      },
+      {
+        "name": "Lon",
+        "type": "range",
+        "value": [-45,   -40.9],
+        "unit": "n/a"
       }
-    },
-    {
-      "name": "O3",
-      "description": "Ozônio",
-      "type": "range",
-      "value": [0,  800],
-      "unit": "μg/m³",
-      "consistency": {
-        "operation": "",
-        "columns": ["O3"]
+    ],
+    "dados-mensais-presal": [
+      {
+        "name": "GID",
+        "description": "Identificador para o banco de dados",
+        "type": "any",
+        "unit": "n/a"
+      },
+      {
+        "name": "Estado",
+        "description": "Nome do estado onde foi perfurado o poço",
+        "type": "list",
+        "value": [
+          "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia",
+          "Ceará", "Distrito Federal", "Espírito Santo",
+          "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul",
+          "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco",
+          "Piauí", "Rio de Janeiro", "Rio Grande do Norte",
+          "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina",
+          "São Paulo", "Sergipe", "Tocantins"
+        ],
+        "unit": "n/a"
+      },
+      {
+        "name": "Bacia",
+        "description": "Nome da bacia sedimentar onde foi perfurado o poço",
+        "type": "any",
+        "unit": "n/a"
+      },
+      {
+        "name": "NomePoco-ANP",
+        "description": "Nome do poço, segundo a Resolução ANP nº699/2017",
+        "type": "any",
+        "unit": "n/a"
+      },
+      {
+        "name": "Campo",
+        "description": "Nome do campo de produção onde se foi perfurado o poço",
+        "type": "any",
+        "unit": "n/a"
+      },
+      {
+        "name": "Periodo",
+        "description": "Período (ano e mês) de apuração dos dados de produção",
+        "type": "any",
+        "unit": "n/a"
+      },
+      {
+        "name": "Oleo",
+        "description": "Volume de óleo",
+        "type": "range",
+        "value": [0, 60000],
+        "unit": "bbl/dia"
+      },
+      {
+        "name": "Condensado",
+        "description": "Volume de condensado",
+        "type": "range",
+        "value": [0, 5000],
+        "unit": "bbl/dia"
+      },
+      {
+        "name": "Petroleo",
+        "description": "Volume de pertróleo (soma de óleo e condensado)",
+        "type": "range",
+        "value": [0, 65000],
+        "unit": "bbl/dia",
+        "consistency": {
+          "operation": "+",
+          "columns": ["Oleo", "Condensado"]
+        }
+      },
+      {
+        "name": "GasNatural-Associado",
+        "description": "Volume de gás natural associado",
+        "type": "range",
+        "value": [0, 5000],
+        "unit": "Mm³/dia"
+      },
+      {
+        "name": "GasNatural-NaoAssociado",
+        "description": "Volume de gás natural não associado",
+        "type": "range",
+        "value": [0, 5000],
+        "unit": "Mm³/dia"
+      },
+      {
+        "name": "GasNatural-Total",
+        "description": "Volume total de gás natural (soma de assoc. e não assoc.)",
+        "type": "range",
+        "value": [0, 10000],
+        "unit": "Mm³/dia",
+        "consistency": {
+          "operation": "+",
+          "columns": ["GasNatural-Associado", "GasNatural-NaoAssociado"]
+        }
+      },
+      {
+        "name": "VolumeGasRoyalties",
+        "description": "Volume de gás royalties",
+        "type": "range",
+        "value": [0, 35000],
+        "unit": "Mm³/dia"
+      },
+      {
+        "name": "Agua",
+        "description": "Volume de água",
+        "type": "range",
+        "value": [0, 30000],
+        "unit": "bbl/dia"
+      },
+      {
+        "name": "PeriodoCarga",
+        "type": "any",
+        "unit": "n/a"
+      },
+      {
+        "name": "Corrente",
+        "description": "Denominação do tipo de hidrocarboneto",
+        "type": "any",
+        "unit": "n/a"
+      },
+      {
+        "name": "GrauAPI",
+        "description": "Grau API (American Petroleum Institute) do óleo",
+        "type": "range",
+        "value": [0, 70],
+        "unit": "° API"
+      },
+      {
+        "name": "FracaoVolDestilados-Leves",
+        "description": "Percentual de destilados leves",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "FracaoVolDestilados-Medios",
+        "description": "Percentual de destilados médios",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "FracaoVolDestilados-Pesados",
+        "description": "Percentual de destilados pesados",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Metano",
+        "description": "Percentual de metano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Etano",
+        "description": "Percentual de etano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Propano",
+        "description": "Percentual de propano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "IsoButano",
+        "description": "Percentual de iso-butano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Butano",
+        "description": "Percentual de butano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "IsoPentano",
+        "description": "Percentual de iso-pentano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "nPentano",
+        "description": "Percentual de n-pentano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Hexanos",
+        "description": "Percentual de hexano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Heptanos",
+        "description": "Percentual de heptano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Octanos",
+        "description": "Percentual de octano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Nonanos",
+        "description": "Percentual de nonano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Decanos",
+        "description": "Percentual de decano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Undecanos",
+        "description": "Percentual de undecano",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Oxigenio",
+        "description": "Percentual de oxigênio",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "Nitrogenio",
+        "description": "Percentual de nitrogênio",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "GasCarbonico",
+        "description": "Percentual de gás carbônico",
+        "type": "range",
+        "value": [0, 100],
+        "unit": "%"
+      },
+      {
+        "name": "DensidadeGLPGas",
+        "description": "Densidade do GLP em forma gasosa",
+        "type": "any",
+        "unit": "kg/m³"
+      },
+      {
+        "name": "DensidadeGLPLiquido",
+        "description": "Densidade do GLP em forma líquida",
+        "type": "any",
+        "unit": "kg/m³"
+      },
+      {
+        "name": "PCSGP",
+        "description": "Poder calorífico superior do gás de pirólise",
+        "type": "any",
+        "unit": "kJ/m³"
+      },
+      {
+        "name": "DataAtualizacao",
+        "description": "Data de atualização desse conjunto de dados de produção mensal por poço",
+        "type": "any",
+        "unit": "n/a",
+        "isdatetime": true
       }
-    },
-    {
-      "name": "PM10",
-      "description": "Material particulado (<10 μm)",
-      "type": "range",
-      "value": [0,  1200],
-      "unit": "μg/m³"
-    },
-    {
-      "name": "PM2_5",
-      "description": "Material particulado (<2.5 μm)",
-      "type": "range",
-      "value": [0,  800],
-      "unit": "μg/m³"
-    },
-    {
-      "name": "Lat",
-      "type": "range",
-      "value": [-23.4, -20.7],
-      "unit": "n/a"
-    },
-    {
-      "name": "Lon",
-      "type": "range",
-      "value": [-45,   -40.9],
-      "unit": "n/a"
-    }
-  ]
+    ]
+  }
 }

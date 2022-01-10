@@ -1,5 +1,7 @@
 <script>
-import { Stables, Sconfig, Stable, Scolumns } from "./stores.js";
+import { Stables, Stable, Sconfig, Scolumns, Stotal_rows,
+Sout_of_range, Sout_of_list, Sdoor, Snot_nulls,
+Sinconsistent, Scurrentness, Sprecision } from "./stores.js";
 import { getContext } from "svelte";
 
 const URL = getContext("URL");
@@ -42,7 +44,17 @@ async function fetchColumns(table) {
   // If selected table is different, update it
   if(table != $Stable) {
     Stable.set(table);
+    Scolumns.set([]);
+    Stotal_rows.set(0);
+    Sout_of_range.set({});
+    Sout_of_list.set({});
+    Sdoor.set({});
+    Snot_nulls.set({});
+    Sinconsistent.set([]);
+    Scurrentness.set({});
+    Sprecision.set({});
   }
+
   // Otherwise, if we already have the columns, return them
   else if($Scolumns && $Scolumns.length > 0) {
     return $Scolumns;
@@ -66,7 +78,11 @@ async function fetchColumns(table) {
       <option disabled>Carregando...</option>
     {:then tables}
       {#each tables as table}
-        <option>{table.name}</option>
+        {#if table.name === tablename}
+          <option selected>{table.name}</option>
+        {:else}
+          <option>{table.name}</option>
+        {/if}
       {:else}
         <option disabled>Opa! :(</option>
       {/each}

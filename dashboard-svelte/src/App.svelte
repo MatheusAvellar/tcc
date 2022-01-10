@@ -30,12 +30,14 @@ function changePalette(palette) {
 </header>
 <main>
   <aside>
-    <input id="config" bind:group={tab} type="radio" name="tab" value={1}>
-    <label for="config" data-selected={tab == 1}>Configuração</label>
-    <input id="analise" bind:group={tab} type="radio" name="tab" value={2}>
-    <label for="analise" data-selected={tab == 2}>Análise</label>
-    <input id="creditos" bind:group={tab} type="radio" name="tab" value={3}>
-    <label for="creditos" data-selected={tab == 3}>Créditos</label>
+    <div class="wrapper">
+      <input id="config" bind:group={tab} type="radio" name="tab" value={1}>
+      <label for="config" data-selected={tab == 1}>Configuração</label>
+      <input id="analise" bind:group={tab} type="radio" name="tab" value={2}>
+      <label for="analise" data-selected={tab == 2}>Análise</label>
+      <input id="creditos" bind:group={tab} type="radio" name="tab" value={3}>
+      <label for="creditos" data-selected={tab == 3}>Créditos</label>
+    </div>
   </aside>
   <section>
     {#if      tab == 1}<Tab1/>
@@ -80,6 +82,10 @@ input[type="radio"] {
 }
 section, aside {
   padding: 1em;
+}
+aside .wrapper {
+  position: sticky;
+  top: .5em;
 }
 label {
   padding: .25em .5em;

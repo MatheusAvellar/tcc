@@ -17,7 +17,7 @@ let list = [];
 let any = [];
 
 $: {
-  updateConfig(config);
+  updateConfig(config, tablename);
 
   checkRanged(tablename, range);
   checkList(tablename, list);
@@ -27,12 +27,12 @@ $: {
 
 // Upon a config update, this will refresh the ranged and listed variables
 // to be rechecked afterwards
-function updateConfig(column_config) {
+function updateConfig(column_config, tablename) {
   let temp_range = [];
   let temp_list = [];
   let temp_any = [];
 
-  column_config.forEach(c => {
+  column_config[tablename].forEach(c => {
     if(c.type == "range")
       temp_range.push(c);
     else if(c.type == "list")
@@ -195,6 +195,8 @@ async function fetchDistinctRanged(table, oor) {
           <p class="status">Carregando...</p>
         {/if}
       </li>
+    {:else}
+      Nada aqui! :)
     {/each}
   </ul>
 </article>
