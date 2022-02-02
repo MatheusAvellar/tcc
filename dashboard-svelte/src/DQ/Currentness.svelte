@@ -91,9 +91,9 @@ function formatDate(ms) {
     <li>
       <p class="column-name">{col}</p>
       {#await getDateDifference(currentness[col]) then diff}
-        <p class="status">Menor intervalo: {diff[0]}</p>
-        <p class="status">Maior intervalo: {diff[2]}</p>
-        <p class="status">Média: {diff[1]}</p>
+        <p class="status">Menor intervalo: <b>{diff[0]}</b></p>
+        <p class="status">Maior intervalo: <b>{diff[2]}</b></p>
+        <p class="status">Média: <b>{diff[1]}</b></p>
       {/await}
     </li>
     {/each}

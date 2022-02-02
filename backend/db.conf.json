@@ -121,7 +121,7 @@
       },
       {
         "name": "NOx",
-        "description": "Óxidos de Nitrogênio",
+        "description": "Óxidos de Nitrogênio (soma de monóxido e dióxido)",
         "type": "any",
         "unit": "μg/m³",
         "consistency": {

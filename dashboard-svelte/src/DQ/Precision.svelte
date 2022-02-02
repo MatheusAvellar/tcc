@@ -35,11 +35,14 @@ async function fetchRealPrecision(table, columns) {
     const obj = row.data[0];
     const orgkey = Object.keys(obj)[0];
     const key = orgkey.split("-")[0];
-    const value = obj[orgkey];
-    out[key] = value;
+    const decimal_places = obj[orgkey];
+    if(!out[decimal_places])
+      out[decimal_places] = [];
+    out[decimal_places].push(key);
   });
   Sprecision.set(out);
   precision = out;
+  console.log(out);
 }
 </script>
 
@@ -51,14 +54,12 @@ async function fetchRealPrecision(table, columns) {
   </p>
   <ul>
   <!-- TODO: melhorar essa visualização aqui -->
-  {#each Object.keys(precision) as col}
+  {#each Object.keys(precision).map(n => Number(n)).sort() as dplaces}
     <li>
-      <p class="column-name">{col}</p>
-      {#if precision[col] < 2}
-        <p class="status">{precision[col]} casa decimal</p>
-      {:else}
-        <p class="status">{precision[col]} casas decimais</p>
-      {/if}
+      <p class="column-name">{dplaces} {#if dplaces < 2}casa decimal{:else}casas decimais{/if}</p>
+      <p class="status">
+        {precision[dplaces].join(", ")}
+      </p>
     </li>
   {:else}
     <p>Carregando...</p>

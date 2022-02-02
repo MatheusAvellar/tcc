@@ -161,7 +161,7 @@ async function fetchDistinctRanged(table, oor) {
           {#if door[r.name]}
             <p class="status">
               Foram encontrados os seguintes valores fora do intervalo:
-              <b>{door[r.name].join(", ")}</b>.
+              <span class="list"><b>{door[r.name].join(", ")}</b></span>.
             </p>
           {/if}
         {:else}

@@ -19,7 +19,11 @@ function changePalette(palette) {
 <header>
   <h1>Data Quality Dashboard</h1>
   <section id="palette-wrapper">
-    Paleta de cores:
+    <div id="palette-label-wrapper">
+      <span id="palette-label">Paleta de cores:</span>
+      <div class="palette-demo"
+      aria-label="Palette demo"><div class="warn-0">0</div><div class="warn-1">1</div><div class="warn-2">2</div><div class="warn-3">3</div><div class="warn-4">4</div></div>
+    </div>
     <input id="palette-1" bind:group={color} type="radio" name="color" value={1}>
     <label class="palette" for="palette-1" data-selected={color == 1}>Padrão</label>
     <input id="palette-2" bind:group={color} type="radio" name="color" value={2}>
@@ -114,7 +118,24 @@ hr {
   padding: 0;
   text-align: right;
 }
+#palette-label-wrapper {
+  display: inline-block;
+  vertical-align: middle;
+}
+#palette-label {
+  display: block;
+}
 .palette {
   display: inline-block;
+}
+.palette-demo {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border: 1px solid #000;
+}
+.palette-demo > div {
+  display: inline-block;
+  text-align: center;
+  font-size: .5em;
 }
 </style>
